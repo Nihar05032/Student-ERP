@@ -1,0 +1,33 @@
+<!-- user_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+</head>
+<body>
+    <h1>User Details</h1>
+    {% if user_type == 'student' %}
+        <ul>
+            <li><strong>Registration Number:</strong> {{ user_detail.regNo }}</li>
+            <li><strong>Name:</strong> {{ user_detail.name }}</li>
+            <li><strong>Roll Number:</strong> {{ user_detail.rollNo }}</li>
+            <li><strong>Phone Number:</strong> {{ user_detail.phoneNo }}</li>
+            <li><strong>Address:</strong> {{ user_detail.address }}</li>
+            <li><strong>Year:</strong> {{ user_detail.get_year_display }}</li>
+            <li><strong>Division:</strong> {{ user_detail.get_division_display }}</li>
+            <li><strong>UPI ID:</strong> {{ user_detail.upiId }}{{ user_detail.upiHandle }}</li>
+        </ul>
+    {% elif user_type == 'teacher' %}
+        <ul>
+            <li><strong>Teacher ID:</strong> {{ user_detail.teacherID }}</li>
+            <li><strong>Name:</strong> {{ user_detail.name }}</li>
+            <li><strong>Phone Number:</strong> {{ user_detail.phoneNo }}</li>
+            <li><strong>Position:</strong> {{ user_detail.position }}</li>
+        </ul>
+    {% else %}
+        <p>No details available for this user.</p>
+    {% endif %}
+</body>
+</html>

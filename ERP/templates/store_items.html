@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.4.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <title>Book Store</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        *{
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            list-style: none;
+            scroll-behavior: smooth;
+        }
+        :root{
+            --body-color: #e4e9f7;
+            --sidebar-color: #fff;
+            --primary-color: #695cfe;
+            --primary-color-light: #e4e9f7;
+            --toggle-color: #ddd;
+            --text-color: #7742eb;
+            --second-color: #ffffff;
+            --other-color: #87b0d9;
+            --bg-color: #ffffff;
+            --text2-color: #000000;
+            --main-color: #f0f0f0;
+
+            --tran-02: all 0.2s ease;
+            --tran-03: all 0.3s ease;
+            --tran-04: all 0.4s ease;
+            --tran-05: all 0.5s ease;
+
+            --h1-font: 4.5rem;
+            --h2-font: 3.5rem;
+            --p-font: 1rem;
+        }
+
+        body{
+            height: 100vh;
+            background: var(--body-color);
+            transition: var(--tran-05);
+        }
+
+        body.dark{
+            --body-color: #18191a;
+            --sidebar-color: #242526;
+            --primary-color: #77797a;
+            --primary-color-light: #3a3b3c;
+            --toggle-color: #fff;
+            --text-color: #e5ddeb;
+            --bg-color: #242526;
+            --text2-color: #fff;
+            --other-color: #68604b;
+        }
+
+        .sidebar .text{
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: var(--tran-03);
+            white-space: nowrap;
+            opacity: 1;
+        }
+
+        .sidebar .image{
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar{
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            padding: 10px 14px;
+            background: var(--sidebar-color);
+            transition: var(--tran-05);
+            z-index: 100;
+        }
+
+        .sidebar.close{
+            width: 88px;
+        }
+
+        .sidebar.close .text{
+            opacity: 0;
+        }
+
+        .sidebar li{
+            height: 50px;
+            margin-top: 10px;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar li .icon{
+            min-width: 60px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar li .icon,
+        .sidebar li .text{
+            color: var(--text-color);
+            transition: var(--tran-02);
+        }
+
+        .sidebar header{
+            position: relative;
+        }
+
+        .sidebar .image-text img{
+            width: 55px;
+            border-radius: 6px;
+        }
+
+        .sidebar header .image-text{
+            display: flex;
+            align-items: center;
+        }
+
+        header .image-text .header-text{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-text .name{
+            font-weight: 600;
+        }
+
+        .sidebar header .toggle{
+            position: absolute;
+            top: 50%;
+            right: -25px;
+            transform: translateY(-50%) rotate(180deg);
+            height: 25px;
+            width: 25px;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--sidebar-color);
+            font-size: 22px;
+            transition: var(--tran-03);
+        }
+
+        .sidebar.close header .toggle{
+            transform: translateY(-50%);
+        }
+
+        body.dark .sidebar header .toggle{
+            color: var(--text-color);
+        }
+
+        .sidebar .menu{
+            margin-top: 35px;
+        }
+
+        .sidebar .search-box{
+            background: var(--primary-color-light);
+            border-radius: 6px;
+            transition: var(--tran-05);
+        }
+
+        .search-box input{
+            height: 100%;
+            width: 100%;
+            outline: none;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            background: var(--primary-color-light);
+        }
+
+        .sidebar li a{
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: var(--tran-04);
+        }
+
+        .sidebar li a:hover{
+            background: var(--primary-color);
+        }
+
+        .sidebar li a:hover .icon,
+        .sidebar li a:hover .text{
+            color: var(--sidebar-color);
+        }
+
+        body.dark .sidebar li a:hover .icon,
+        body.dark .sidebar li a:hover .text{
+            color: var(--text-color);
+        }
+
+        .sidebar .menu-bar{
+            height: calc(100% - 50px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-bar .mode{
+            position: relative;
+            background: var(--primary-color-light);
+            border-radius: 6px;
+        }
+
+        .menu-bar .mode .moon-sun{
+            height: 50px;
+            width: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-bar .mode i{
+            position: absolute;
+            transition: var(--tran-03);
+        }
+
+        .menu-bar .mode i.moon{
+            opacity: 0;
+        }
+
+        body.dark .menu-bar .mode i.moon{
+            opacity: 1;
+        }
+
+        body.dark .menu-bar .mode i.sun{
+            opacity: 0;
+        }
+
+        .menu-bar .mode .toggle-switch{
+            position: absolute;
+            right: 0;
+            height: 100%;
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 6px;
+            background: var(--primary-color-light);
+            transition: var(--tran-05);
+        }
+
+        .toggle-switch .switch{
+            position: relative;
+            height: 22px;
+            width: 44px;
+            border-radius: 25px;
+            background: var(--toggle-color);
+        }
+
+        .switch::before{
+            content: '';
+            position: absolute;
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            top: 50%;
+            left: 5px;
+            transform: translateY(-50%);
+            background: var(--sidebar-color);
+            transition: var(--tran-03);
+        }
+
+        body.dark .switch::before{
+            left: 24px;
+        }
+
+        .home{
+            position: relative;
+            left: 250px;
+            height: 100vh;
+            width: calc(100% - 250px);
+            transition: var(--tran-05);
+            background: var(--body-color);
+        }
+
+        .home .text{
+            font-size: 30px;
+            font-weight: 500;
+            color: var(--text-color);
+            padding: 8px 40px;
+        }
+
+        .sidebar.close ~ .home{
+            left: 88px;
+            width: calc(100% - 88px);
+        }
+
+        .home header{
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: inherit;
+            box-shadow: 0 1px 6px 0 rgb(32, 33, 36 / 5%);
+            padding: 18px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-color);
+            flex-wrap: wrap;
+        }
+
+        .home .logo{
+            font-size: 33px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--text-color);
+            font-family: 'Times New Roman', Times, serif;
+            margin-right: 40%;
+        }
+
+        .home .nav-right{
+            display: flex;
+            align-items: center;   
+            margin-left: 30%;        
+        }
+
+        .home .nav-right a{
+            display: inline-block;
+            font-size: 22px;
+            color: var(--text-color);
+            margin: 0 20px;
+            transition: all .6s; 
+        }
+
+        .home .nav-right a:hover{
+            transform: translateY(-5px) scale(1.1);
+        }
+
+        .home section{
+            padding: 90px 14% 70px;
+        }
+
+        .main{
+            position: inherit;
+            height: 95vh;
+            width: 100%;
+            background: url(tree.png);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 75px;
+            flex-wrap: wrap;
+            list-style-type: none;
+        }
+
+        .main-text{
+            padding-top: 40px;
+        }
+
+        .main-text h1{
+            font-size: var(--h1-font);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            color: var(--text2-color);
+        }
+
+        .main-text h6{
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text2-color);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .main-text p{
+            width: 100%;
+            max-width: 560px;
+            font-size: var(--p-font);
+            font-weight: 400;
+            color: var(--text2-color);
+            line-height: 33px;
+            margin-bottom: 35px;
+        }
+
+        .main .btn{
+            display: inline-block;
+            padding: 14px 42px;
+            background: var(--text-color);
+            color: var(--bg-color);
+            font-size: 15px;
+            font-weight: 500;
+            border: 2px solid transparent;
+            transition: all .6s;
+        }
+
+        .main .btn:hover{
+            transform: scale(0.9) translateY(-6px);
+            border: 2px solid var(--text-color);
+            background: transparent;
+            color: var(--text-color);
+        }
+
+        .main .btn i{
+            margin-left: 9px;
+        }
+
+        .n-product{
+            position: inherit;
+        }
+
+        .n-product .center-text{
+            text-align: center;
+        }
+
+        .n-product .center-text h2{
+            font-size: var(--h2-font);
+            font-weight: 700;
+            color: var(--text2-color);
+        }
+
+        @media screen and (min-width: 1152px) {
+            .container {
+            margin-inline: auto;
+            }
+            }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--body-color);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--text2-color);
+        }
+
+        .category {
+            margin-bottom: 40px;
+        }
+
+
+        .category-title {
+            font-size: 24px;
+            color: var(--text2-color);
+            margin-bottom: 20px;
+        }
+
+        .items-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .item-card {
+            background-color: var(--text-color);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .item-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .item-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .item-price {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .seller-info {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .buy-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .buy-btn:hover {
+            background-color: #218838;
+        }
+
+        .no-image {
+            font-style: italic;
+            color: var(--text2-color);
+        }
+
+        .modal{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            display: none; /* Initially hidden */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content{
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            text-align: center;
+            position: relative;          
+        }
+
+        .model .close{
+            position: fixed;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;          
+        }
+
+       
+    </style>
+</head>
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="logo.png" alt="logo">
+                </span>
+
+                <div class="text header-text">
+                    <span class="name">Student ERP</span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle' ></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+                <li class="search-box">
+                    <i class='bx bx-search icon' ></i>
+                        <input type="text" placeholder="Search..">
+                </li>
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="{% url 'user_groups_announcements' %}">
+                            <i class='bx bx-home icon' ></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="{% url 'todo_list' %}">
+                            <i class='bx bx-edit icon' ></i>
+                            <span class="text nav-text">To-Do List</span>
+                        </a>
+                    </li>
+                </li>
+                <li class="nav-link">
+                    <a href="calendar.html">
+                        <i class='bx bx-calendar icon' ></i>
+                        <span class="text nav-text">Calendar</span>
+                    </a>
+                </li>
+                    <li class="nav-link">
+                        <a href="{% url 'store_view' %}">
+                            <i class='bx bx-book-reader icon'></i>
+                            <span class="text nav-text">Book Store</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="{% url 'stationary' %}">
+                            <i class='bx bx-store icon' ></i>
+                            <span class="text nav-text">Stationery</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="{% url 'user_detail' %}">
+                            <i class='bx bx-cog icon' ></i>
+                            <span class="text nav-text">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class='bx bx-log-out icon'></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                    
+                    <!-- Hidden Logout Form -->
+                    <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                        {% csrf_token %}
+                    </form>
+                    
+                </li>
+
+                <li class="mode">
+                    <div class="moon-sun">
+                        <i class='bx bx-moon icon moon' ></i>
+                        <i class='bx bx-sun icon sun' ></i>
+                    </div>
+                    <span class="mode-text text">Dark Mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+            </div>
+        </div>
+    </nav> 
+
+
+    <section class="home">
+        <header>
+            <a href="#" class="logo">Book Store</a>
+            
+            <div class="nav-right">
+                <a href="#"><i class="ri-search-line"></i></a>
+                <a href="#"><i class="ri-shopping-cart-line"></i></a>
+            </div>
+        </header>
+
+        <section class="main">
+            <div class="main-text" data-aos="fade-up">
+                
+                <h1>Organize, Create, Inspire <br>Your Perfect Stationery</h1>
+                <p>Discover essentials that make it easy to stay organized and inspired. Our stationery is thoughtfully designed for all your note-taking, planning, and creative needs.</p>
+                
+            </div>
+        </section>
+
+        <div id="addBookModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Add a New Book</h2>
+                <form id="addBookForm" method="post" enctype="multipart/form-data" action="{% url 'store_view' %}">
+                    {% csrf_token %}
+                    
+                    <label for="bookName">Book Name:</label>
+                    <input type="text" name="bookName" id="bookName" required>
+                    
+                    <label for="price">Price:</label>
+                    <input type="number" name="price" id="price" step="0.01" required>
+                    
+                    <label for="image">Image:</label>
+                    <input type="file" name="image" id="image" accept="image/*">
+
+                    <label for="description"> Description: </label>
+                    <input type="text" name="desc" id="desc" >
+                    
+                    <button id="submit" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <section class="n-product">
+            <div class="center-text" data-aos="fade-down">
+                <h2>All Products</h2>
+            </div>
+            <button id="addBookBtn" class="btn">Add Book</button>
+    <h1>Items for Sale</h1>
+    <div class="container" data-aos="zoom-in">
+        <div class="items-container">
+            {% for item in items %}
+            <div class="item-card">
+                <div class="item-image">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.bookName }}" width="100" height="100">
+                    {% else %}
+                        <p class="no-image">No Image Available</p>
+                    {% endif %}
+                </div>
+                <div class="item-name">{{ item.bookName }}</div>
+                <div class="item-price">Price: ₹{{ item.price }}</div>
+                <div class="seller-info">
+                    <p>Seller: {{ item.seller.name }}</p>
+                    <p>Contact: {{ item.seller.phoneNo }}</p>
+                    <p>UPI ID: {{ item.seller.upiId }}</p>
+                </div>
+                <div class="item-description">
+                    <p>{{ item.desc }}</p>
+                </div>
+                <button class="buy-btn">Buy Now</button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+ 
+
+
+    </section>
+    
+    <script>
+        const body = document.querySelector("body"),
+              sidebar = body.querySelector(".sidebar"),
+              toggle = body.querySelector(".toggle"),
+              searchBtn = body.querySelector(".search-box"),
+              modeToggle = body.querySelector(".toggle-switch"),
+              modeText = body.querySelector(".mode-text");
+              
+
+
+              toggle.addEventListener("click", () =>{
+                sidebar.classList.toggle("close");
+              });
+
+              searchBtn.addEventListener("click", () =>{
+                sidebar.classList.remove("close");
+              });
+               // Check the stored mode on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            const body = document.body;
+            const modeToggle = document.querySelector('.toggle-switch');
+
+            // Get the stored theme from localStorage
+            const darkMode = localStorage.getItem('darkMode');
+
+            if (darkMode === 'enabled') {
+                body.classList.add('dark');
+            }
+
+            // Toggle dark mode and store the preference
+            modeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark');
+
+                if (body.classList.contains('dark')) {
+                    localStorage.setItem('darkMode', 'enabled');
+                    modeText.innerText = "Dark Mode"
+                } else {
+                    localStorage.setItem('darkMode', 'disabled');
+                    modeText.innerText = "Light Mode"
+                }
+            });
+        });
+
+
+        // Get modal element
+            const modal = document.getElementById("addBookModal");
+        
+            // Get open modal button
+            const addBookBtn = document.getElementById("addBookBtn");
+        
+            // Get close button
+            const closeBtn = document.querySelector(".close");
+        
+            // Listen for open click
+            addBookBtn.addEventListener("click", () => {
+                modal.style.display = "block";
+            });
+        
+            // Listen for close click
+            closeBtn.addEventListener("click", () => {
+                modal.style.display = "none";
+            });
+        
+            // Close modal if outside click
+            window.addEventListener("click", (e) => {
+                if (e.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+
+            function openPopup() {
+                document.getElementById("addBookModal").style.display = "flex";
+              }
+
+            function closePopup() {
+                document.getElementById("submit").style.display = "none";
+              }
+    </script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script>
+          AOS.init({
+            offset: 300,
+            duration: 1450,
+          });
+        </script>
+
+</body>
+</html>
